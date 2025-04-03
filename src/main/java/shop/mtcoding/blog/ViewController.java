@@ -16,10 +16,6 @@ public class ViewController {
         return "board/detail";
     }
 
-    @GetMapping("/t3")
-    public String t3() {
-        return "board/save-form";
-    }
 
     @GetMapping("/t4")
     public String t4() {
