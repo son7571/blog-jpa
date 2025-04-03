@@ -26,12 +26,6 @@ public class ViewController {
         return "board/update-form";
     }
 
-
-    @GetMapping("/t6")
-    public String t6() {
-        return "user/login-form";
-    }
-
     @GetMapping("/t7")
     public String t7() {
         return "user/update-form";
