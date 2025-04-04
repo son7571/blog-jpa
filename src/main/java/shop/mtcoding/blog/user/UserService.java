@@ -16,6 +16,11 @@ public class UserService {
         userRepository.save(user);
         //user 객체
         System.out.println("영속/동기화 user :" + user.getId());
+
+        // Todo:정리하기
+        System.out.println("----------");
+        userRepository.finById(4);
+        System.out.println("----------");
     }
 
     public User 로그인(UserRequest.LoginDTO loginDTO) {
