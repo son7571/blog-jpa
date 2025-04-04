@@ -11,16 +11,17 @@ public class UserService {
 
     @Transactional
     public void 회원가입(UserRequest.JoinDTO joinDTO) {
-        userRepository.save(joinDTO.getUsername(), joinDTO.getPassword(), joinDTO.getEmail());
+        User user = joinDTO.toEntity(); //1. 비영속 객체
+        System.out.println("비영속 user :" + user.getId());
+        userRepository.save(user);
+        //user 객체
+        System.out.println("영속/동기화 user :" + user.getId());
     }
 
     public User 로그인(UserRequest.LoginDTO loginDTO) {
         User user = userRepository.findByUsername(loginDTO.getUsername());
-        if (user == null) {
-            throw new RuntimeException("해당 username이 없습니다");
-        }
-        if (!(user.getPassword().equals(loginDTO.getPassword()))) {
-            throw new RuntimeException("해당 password가 틀렸습니다");
+        if (!user.getPassword().equals(loginDTO.getPassword())) {
+            throw new RuntimeException("유저네임 혹은 비밀번호가 틀렸습니다");
         }
         return user;
     }

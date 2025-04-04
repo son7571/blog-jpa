@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ViewController {
 
-    @GetMapping("/")
-    public String list() {
+
+    @GetMapping("/t1")
+    public String t1() {
         return "board/list";
     }
 
@@ -16,10 +17,24 @@ public class ViewController {
         return "board/detail";
     }
 
+    @GetMapping("/t3")
+    public String t3() {
+        return "board/save-form";
+    }
 
     @GetMapping("/t4")
     public String t4() {
         return "board/update-form";
+    }
+
+    @GetMapping("/t5")
+    public String t5() {
+        return "user/join-form";
+    }
+
+    @GetMapping("/t6")
+    public String t6() {
+        return "user/login-form";
     }
 
     @GetMapping("/t7")

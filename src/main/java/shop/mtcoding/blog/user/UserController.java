@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 @Controller
 public class UserController {
-
     private final UserService userService;
     private final HttpSession session;
 
@@ -21,7 +20,7 @@ public class UserController {
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO joinDTO) {
         userService.회원가입(joinDTO);
-        return "redirect:/";
+        return "redirect:/login-form";
     }
 
     @GetMapping("/login-form")
@@ -35,12 +34,4 @@ public class UserController {
         session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }
-
-    @GetMapping("/logout")
-    public String logout() {
-        session.invalidate();
-        return "redirect:/";
-    }
-
 }
-
