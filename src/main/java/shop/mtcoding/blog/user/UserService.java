@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
+//비지니스로직, 트랜잭션처리, DTO 완료
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -11,11 +15,15 @@ public class UserService {
 
     @Transactional
     public void 회원가입(UserRequest.JoinDTO joinDTO) {
-        User user = joinDTO.toEntity(); //1. 비영속 객체
-        System.out.println("비영속 user :" + user.getId());
-        userRepository.save(user);
-        //user 객체
-        System.out.println("영속/동기화 user :" + user.getId());
+
+
+        try {
+            User user = joinDTO.toEntity();
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException("이 동일한 아이디로 회원가입하는 포스트맨 쓰지마라");
+        }
+
     }
 
     public User 로그인(UserRequest.LoginDTO loginDTO) {
@@ -24,5 +32,16 @@ public class UserService {
             throw new RuntimeException("유저네임 혹은 비밀번호가 틀렸습니다");
         }
         return user;
+    }
+
+    public Map<String, Object> 유저네임중복체크(String username) {
+        User user = userRepository.findByUsername(username);
+        Map<String, Object> dto = new HashMap<>();
+        if (user == null) {
+            dto.put("available", true);
+        } else {
+            dto.put("available", false);
+        }
+        return dto;
     }
 }
