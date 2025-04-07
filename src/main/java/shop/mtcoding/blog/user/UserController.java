@@ -43,25 +43,27 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO loginDTO, HttpServletResponse response) {
-//        System.out.println(loginDTO);
+        //System.out.println(loginDTO);
         User sessionUser = userService.로그인(loginDTO);
         session.setAttribute("sessionUser", sessionUser);
 
         if (loginDTO.getRememberMe() == null) {
-            Cookie cookie = new Cookie("username", loginDTO.getUsername());
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-        } else if (loginDTO.getRememberMe().equals("on")) {
+
+            Cookie cookie = new Cookie("username", null); // 값은 null로
+            cookie.setMaxAge(0); // 0초 = 즉시 만료
+            response.addCookie(cookie); // 클라이언트에 다시 전달해서 삭제
+        } else {
             Cookie cookie = new Cookie("username", loginDTO.getUsername());
             cookie.setMaxAge(60 * 60 * 24 * 7);
             response.addCookie(cookie);
         }
+
         return "redirect:/";
     }
 
     @GetMapping("/logout")
     public String logout() {
         session.invalidate();
-        return "redirect:/login-form";
+        return "redirect:/";
     }
 }

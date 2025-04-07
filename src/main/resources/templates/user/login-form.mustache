@@ -27,12 +27,12 @@
 </div>
 
 <script>
-
     let rememberUsername = getCookie("username");
 
     if (rememberUsername != null) {
         document.querySelector("#username").value = rememberUsername;
     }
+
 
     function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -41,6 +41,5 @@
         return null;
     }
 </script>
-
 
 {{> layout/footer}}
