@@ -23,4 +23,9 @@ public class BoardService {
         return boardRepository.findAll(userId);
     }
 
+    public BoardResponse.DetailDTO 글상세보기(Integer id, Integer UserId) {
+        Board board = boardRepository.findByIdJoinUser(id);
+        BoardResponse.DetailDTO detailDTO = new BoardResponse.DetailDTO(board, UserId);
+        return detailDTO;
+    }
 }

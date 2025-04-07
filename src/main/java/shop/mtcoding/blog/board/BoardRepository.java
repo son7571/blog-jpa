@@ -40,4 +40,14 @@ public class BoardRepository {
 
         return query.getResultList();
     }
+
+    public Board findById(Integer id) {
+        return em.find(Board.class, id);
+    }
+
+    public Board findByIdJoinUser(Integer id) {
+        Query query = em.createQuery("select b from Board b join fetch b.user u where b.id = :Id", Board.class); //on절 생략 가능하다
+        query.setParameter("Id", id);
+        return (Board) query.getSingleResult();
+    }
 }
