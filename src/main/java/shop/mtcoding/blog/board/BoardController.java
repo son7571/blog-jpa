@@ -48,13 +48,16 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String detail(@PathVariable("id") Integer id, HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-        }
-        BoardResponse.DetailDTO detailDTO = boardService.글상세보기(id, sessionUser.getId());
+        Integer sessionUserId = (sessionUser == null ? null : sessionUser.getId());
+        BoardResponse.DetailDTO detailDTO = boardService.글상세보기(id, sessionUserId);
         request.setAttribute("model", detailDTO);
         return "board/detail";
     }
 
+    @GetMapping("/board/{id}/update-form")
+    public String updateForm() {
+        return "update-form";
+    }
 }
 
 
