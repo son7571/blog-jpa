@@ -54,10 +54,6 @@ public class BoardController {
         return "board/detail";
     }
 
-    @GetMapping("/board/{id}/update-form")
-    public String updateForm() {
-        return "update-form";
-    }
 }
 
 
