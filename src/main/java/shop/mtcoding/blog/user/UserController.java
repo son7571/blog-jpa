@@ -66,4 +66,27 @@ public class UserController {
         session.invalidate();
         return "redirect:/";
     }
+
+    @GetMapping("/user/update-form")
+    public String updateForm() {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
+
+        // viewResolver -> prefix = /teplates/ -> suffix = .mustache
+        return "user/update-form";
+    }
+
+    @PostMapping("/user/update")
+    public String update(UserRequest.UpdateDTO updateDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
+
+        // update user_tb set password = ?, email = ? ,where id =?
+        User user = userService.회원정보수정(updateDTO, sessionUser.getId());
+
+        //세션 동기화
+        session.setAttribute("sessionUser", user);
+
+        return "redirect:/";
+    }
 }
