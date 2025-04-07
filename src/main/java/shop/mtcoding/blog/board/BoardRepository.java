@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public class BoardRepository {
     private final EntityManager em;
 
-    public Board findById(int id) {
-        return em.find(Board.class, id);
+    public void save(Board board) {
+        em.persist(board);
     }
 }
