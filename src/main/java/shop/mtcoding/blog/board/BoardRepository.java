@@ -26,6 +26,31 @@ public class BoardRepository {
 //
 //}
 
+    public BoardResponse.DetailDTO findDetail(Integer boardId, Integer userId) {
+        String sql = """
+                SELECT new shop.mtcoding.blog.board.BoardResponse$DetailDTO(
+                    b.id,
+                    b.title,
+                    b.content,
+                    b.isPublic,
+                    CASE WHEN b.user.id = :userId THEN true ELSE false END,
+                
+                    b.user.username,
+                    b.createdAt,
+                    (SELECT COUNT(l.id) FROM Love l WHERE l.board.id = :boardId),
+                    (SELECT CASE WHEN COUNT(l2) > 0 THEN true ELSE false END
+                     FROM Love l2
+                     WHERE l2.board.id = :boardId AND l2.user.id = :userId)
+                )
+                FROM Board b
+                WHERE b.id = :boardId
+                """;
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("boardId", boardId);
+        query.setParameter("userId", userId);
+        return (BoardResponse.DetailDTO) query.getSingleResult();
+    }
+
     public List<Board> findAll(Integer userId) {
         String s1 = "select b from Board b where b.isPublic = true or b.user.id = :userId order by b.id desc";
         String s2 = "select b from Board b where b.isPublic = true order by b.id desc";

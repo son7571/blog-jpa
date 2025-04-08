@@ -8,5 +8,4 @@ import org.springframework.stereotype.Controller;
 public class LoveController {
     private final LoveService loveService;
 
-
 }

@@ -12,14 +12,8 @@ import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Getter
-@Table(
-        name = "love_tb",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"user_id", "board_id"})
-        }
-)
+@Table(name = "love_tb")
 @Entity
-
 public class Love {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +29,7 @@ public class Love {
     private Timestamp createdAt;
 
     @Builder
-    public Love(Integer id, User user, Board board, Timestamp createdAt) {
+    public Love(Integer id, String title, String content, Boolean isPublic, User user, Timestamp createdAt) {
         this.id = id;
         this.user = user;
         this.board = board;

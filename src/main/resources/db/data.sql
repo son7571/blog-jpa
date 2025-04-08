@@ -19,6 +19,6 @@ values ('제목5', '내용5', 1, false, now());
 insert into love_tb(board_id, user_id, created_at)
 values (5, 1, now());
 insert into love_tb(board_id, user_id, created_at)
-values (4, 2, now());
+values (5, 2, now());
 insert into love_tb(board_id, user_id, created_at)
 values (4, 1, now());

@@ -6,6 +6,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class LoveService {
-    private LoveRepository loveRepository;
-
+    private final LoveRepository loveRepository;
 }

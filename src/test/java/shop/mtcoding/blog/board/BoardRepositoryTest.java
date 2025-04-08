@@ -13,13 +13,24 @@ public class BoardRepositoryTest {
     private BoardRepository boardRepository;
 
     @Test
+    public void findDetail_test() {
+        // given
+        Integer userId = 1;
+        Integer boardId = 4;
+
+        BoardResponse.DetailDTO detailDTO = boardRepository.findDetail(boardId, userId);
+        System.out.println(detailDTO);
+    }
+
+
+    @Test
     public void findByIdJoinUser_test() {
         // given
         Integer id = 1;
 
         // when
         boardRepository.findByIdJoinUser(id);
-        
+
         // eye
 
     }
