@@ -34,7 +34,6 @@ public class BoardRepository {
                     b.content,
                     b.isPublic,
                     CASE WHEN b.user.id = :userId THEN true ELSE false END,
-                
                     b.user.username,
                     b.createdAt,
                     (SELECT COUNT(l.id) FROM Love l WHERE l.board.id = :boardId),
@@ -45,9 +44,9 @@ public class BoardRepository {
                 FROM Board b
                 WHERE b.id = :boardId
                 """;
-        Query query = em.createNativeQuery(sql);
-        query.setParameter("boardId", boardId);
+        Query query = em.createQuery(sql);
         query.setParameter("userId", userId);
+        query.setParameter("boardId", boardId);
         return (BoardResponse.DetailDTO) query.getSingleResult();
     }
 
