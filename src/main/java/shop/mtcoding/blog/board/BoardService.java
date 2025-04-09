@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog.love.Love;
 import shop.mtcoding.blog.love.LoveRepository;
-import shop.mtcoding.blog.reply.Reply;
 import shop.mtcoding.blog.reply.ReplyRepository;
 import shop.mtcoding.blog.user.User;
 
@@ -33,14 +32,14 @@ public class BoardService {
         Board board = boardRepository.findByIdJoinUser(id);
 
         Love love = loveRepository.findByUserIdAndBoardId(userId, id);
+
         Long loveCount = loveRepository.findByBoardId(id);
 
         Integer loveId = love == null ? null : love.getId();
         Boolean isLove = love == null ? false : true;
 
-        List<Reply> replies = replyRepository.findAllByBoardId(id);
 
-        BoardResponse.DetailDTO detailDTO = new BoardResponse.DetailDTO(board, userId, isLove, loveCount.intValue(), loveId, replies);
+        BoardResponse.DetailDTO detailDTO = new BoardResponse.DetailDTO(board, userId, isLove, loveCount.intValue(), loveId);
         return detailDTO;
     }
 }
