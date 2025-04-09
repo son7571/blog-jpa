@@ -12,7 +12,12 @@ import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Getter
-@Table(name = "love_tb")
+@Table(
+        name = "love_tb",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "board_id"})
+        }
+)
 @Entity
 public class Love {
     @Id
@@ -29,7 +34,7 @@ public class Love {
     private Timestamp createdAt;
 
     @Builder
-    public Love(Integer id, String title, String content, Boolean isPublic, User user, Timestamp createdAt) {
+    public Love(Integer id, User user, Board board, Timestamp createdAt) {
         this.id = id;
         this.user = user;
         this.board = board;

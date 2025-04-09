@@ -1,122 +1,126 @@
 {{> layout/header}}
+
+<input type="hidden" id="boardId" value="{{model.id}}">
+
 <div class="container p-5">
 
-    {{> layout/header}}
-    <div class="container p-5">
-
-        <!-- 수정삭제버튼 -->
-        {{#model.isOwner}}
-            <div class="d-flex justify-content-end">
-                <a href="/board/{{model.id}}/update-form" class="btn btn-warning me-1">수정</a>
-                <form action="/board/{{model.id}}/delete" method="post">
-                    <button class="btn btn-danger">삭제</button>
-                </form>
-            </div>
-        {{/model.isOwner}}
-
+    <!-- 수정삭제버튼 -->
+    {{#model.isOwner}}
         <div class="d-flex justify-content-end">
-            <b>작성자</b> : {{model.username}}
+            <a href="/board/{{model.id}}/update-form" class="btn btn-warning me-1">수정</a>
+            <form action="/board/{{model.id}}/delete" method="post">
+                <button class="btn btn-danger">삭제</button>
+            </form>
         </div>
+    {{/model.isOwner}}
 
-        <!-- 게시글내용 -->
-        <div>
-            <h2><b>{{model.title}}</b></h2>
-            <hr/>
-            <div class="m-4 p-2">
-                {{model.content}}
-            </div>
-        </div>
+    <div class="d-flex justify-content-end">
+        <b>작성자</b> : {{model.username}}
+    </div>
 
-        <!-- AJAX 좋아요 영역 -->
-        <div class="my-3 d-flex align-items-center">
-            {{#model.isLove}}
-                <i id="likeIcon" class="fa fa-heart" style="font-size:20px; color:red" onclick="likeToggle()"></i>
-            {{/model.isLove}}
-            {{^model.isLove}}
-                <i id="likeIcon" class="fa fa-heart" style="font-size:20px; color:black" onclick="likeToggle()"></i>
-            {{/model.isLove}}
-            <span class="ms-1"><b id="likeCount">{{model.loveCount}}</b>명이 이 글을 좋아합니다</span>
-        </div>
-
-        <!-- 댓글 -->
-        <div class="card mt-3">
-            <!-- 댓글등록 -->
-            <div class="card-body">
-                <form action="/reply/save" method="post">
-                    <textarea class="form-control" rows="2" name="comment"></textarea>
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-outline-primary mt-1">댓글등록</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- 댓글목록 -->
-            <div class="card-footer">
-                <b>댓글리스트</b>
-            </div>
-            <div class="list-group">
-                <!-- 댓글아이템 -->
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="d-flex">
-                        <div class="px-1 me-1 bg-primary text-white rounded">cos</div>
-                        <div>댓글 내용입니다</div>
-                    </div>
-                    <form action="/reply/1/delete" method="post">
-                        <button class="btn">🗑</button>
-                    </form>
-                </div>
-                <!-- 댓글아이템 -->
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="d-flex">
-                        <div class="px-1 me-1 bg-primary text-white rounded">ssar</div>
-                        <div>댓글 내용입니다</div>
-                    </div>
-                    <form action="/reply/1/delete" method="post">
-                        <button class="btn">🗑</button>
-                    </form>
-                </div>
-            </div>
+    <!-- 게시글내용 -->
+    <div>
+        <h2><b>{{model.title}}</b></h2>
+        <hr/>
+        <div class="m-4 p-2">
+            {{model.content}}
         </div>
     </div>
 
-    <script>
-        let liked = document.querySelector("#likeIcon").dataset.liked;
+    <!-- AJAX 좋아요 영역 -->
+    <div class="my-3 d-flex align-items-center">
+        {{#model.isLove}}
+            <i id="loveIcon" class="fa fa-heart" style="font-size:20px; color:red"
+               onclick="deleteLove({{model.loveId}})"></i>
+        {{/model.isLove}}
+        {{^model.isLove}}
+            <i id="loveIcon" class="fa fa-heart" style="font-size:20px; color:black"
+               onclick="saveLove()"></i>
+        {{/model.isLove}}
+        <span class="ms-1"><b id="loveCount">{{model.loveCount}}</b>명이 이 글을 좋아합니다</span>
+    </div>
 
-        async function saveLove(boardId) {
-            let requestBody = {
-                boardId: boardId
-            }
-            let response = await fetch(`/love`, {
-                method: "post",
-                body: JSON.stringify(requestBody),
-                headers: {"Content-Type": "application/json"}
-            });
-            let responseBody = await response.json(); // loveCount, loveId
+    <!-- 댓글 -->
+    <div class="card mt-3">
+        <!-- 댓글등록 -->
+        <div class="card-body">
+            <form action="/reply/save" method="post">
+                <textarea class="form-control" rows="2" name="comment"></textarea>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-outline-primary mt-1">댓글등록</button>
+                </div>
+            </form>
+        </div>
 
-            //likeToggle();
-            location.reload();
-        }
+        <!-- 댓글목록 -->
+        <div class="card-footer">
+            <b>댓글리스트</b>
+        </div>
+        <div class="list-group">
+            <!-- 댓글아이템 -->
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <div class="px-1 me-1 bg-primary text-white rounded">cos</div>
+                    <div>댓글 내용입니다</div>
+                </div>
+                <form action="/reply/1/delete" method="post">
+                    <button class="btn">🗑</button>
+                </form>
+            </div>
+            <!-- 댓글아이템 -->
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <div class="px-1 me-1 bg-primary text-white rounded">ssar</div>
+                    <div>댓글 내용입니다</div>
+                </div>
+                <form action="/reply/1/delete" method="post">
+                    <button class="btn">🗑</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-        async function deleteLove(loveId) {
-            let response = await fetch(`/love/${loveId}`, {
-                method: "delete"
-            });
-            let responseBody = await response.json(); // loveCount 응답 받아야 함
+<script>
 
-            //likeToggle();
-            location.reload();
-        }
+    setInterval(() => {
+        location.reload();
+    }, 1000);
 
-        // 빨간색 하트, 검정색 하트
-        function likeToggle() {
-            let icon = document.querySelector('#likeIcon');
-            if (liked) {
-                icon.style.color = 'black';
-            } else {
-                icon.style.color = 'red';
-            }
-            liked = !liked;
-        }
-    </script>
+    let boardId = document.querySelector("#boardId").value;
+
+    async function saveLove() {
+        let requestBody = {boardId: boardId};
+        let response = await fetch(`/love`, {
+            method: "POST",
+            body: JSON.stringify(requestBody),
+            headers: {"Content-Type": "application/json"}
+        });
+        let responseBody = await response.json(); // response.text();
+        console.log(requestBody)
+
+        // DOM 업데이트
+        let loveicon = document.querySelector('#loveIcon');
+        let loveCount = document.querySelector('#loveCount');
+        loveicon.style.color = 'red';
+        loveicon.setAttribute('onclick', `deleteLove(${requestBody.body.loveId})`);
+        loveCount.innerHTML = responseBody.body.loveCount;
+    }
+
+    async function deleteLove(loveId) {
+        let response = await fetch(`/love/${loveId}`, {
+            method: "DELETE"
+        });
+        let responseBody = await response.json(); // { loveCount }
+        console.log(responseBody)
+
+        // DOM 업데이트
+        let loveicon = document.querySelector('#loveIcon');
+        let loveCount = document.querySelector('#loveCount');
+        loveicon.style.color = 'black';
+        loveicon.setAttribute('onclick', `saveLove()`);
+        loveCount.innerHTML = responseBody.body.loveCount;
+    }
+</script>
 
 {{> layout/footer}}
