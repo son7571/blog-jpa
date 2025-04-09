@@ -2,8 +2,10 @@ package shop.mtcoding.blog.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import shop.mtcoding.blog.reply.Reply;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class BoardResponse {
 
@@ -21,7 +23,9 @@ public class BoardResponse {
         private Timestamp createdAt;
         private Integer loveId;
 
-        public DetailDTO(Board board, Integer sessionUserId, Boolean isLove, Integer loveCount, Integer loveId) {
+        private List<Reply> replies;
+
+        public DetailDTO(Board board, Integer sessionUserId, Boolean isLove, Integer loveCount, Integer loveId, List<Reply> replies) {
             this.id = board.getId();
             this.title = board.getTitle();
             this.content = board.getContent();
@@ -32,6 +36,7 @@ public class BoardResponse {
             this.isLove = isLove;
             this.loveCount = loveCount;
             this.loveId = loveId;
+            this.replies = replies;
         }
 
     }

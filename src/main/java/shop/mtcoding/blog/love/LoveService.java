@@ -21,6 +21,9 @@ public class LoveService {
         Love lovePs = loveRepository.findById(id);
         if (lovePs == null) throw new RuntimeException("좋아요 없는데 굳이");
 
+        // 권한 체크(lovePs.getUser().getId() 비교 sessionUserId)
+        //Integer는 equal로 하기
+
         Integer boardId = lovePs.getBoard().getId();
 
         loveRepository.deleteById(id);
