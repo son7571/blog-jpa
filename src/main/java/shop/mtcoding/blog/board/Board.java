@@ -27,7 +27,7 @@ public class Board {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user; // ORM
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reply> replies = new ArrayList<Reply>();
 
     @CreationTimestamp
@@ -42,4 +42,6 @@ public class Board {
         this.user = user;
         this.createdAt = createdAt;
     }
+
+
 }

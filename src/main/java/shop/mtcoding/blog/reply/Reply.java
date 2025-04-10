@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.reply;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,5 +30,12 @@ public class Reply {
     @CreationTimestamp
     private Timestamp createdAt;
 
-
+    @Builder
+    public Reply(Timestamp createdAt, Board board, User user, String content, Integer id) {
+        this.createdAt = createdAt;
+        this.board = board;
+        this.user = user;
+        this.content = content;
+        this.id = id;
+    }
 }

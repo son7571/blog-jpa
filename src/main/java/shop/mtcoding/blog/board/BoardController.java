@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shop.mtcoding.blog.user.User;
 
 @RequiredArgsConstructor
@@ -43,6 +44,14 @@ public class BoardController {
 
         boardService.글쓰기(saveDTO, sessionUser);
         return "redirect:/";
+    }
+
+    @GetMapping("/v2/board/{id}")
+    public @ResponseBody BoardResponse.DetailDTO v2detail(@PathVariable("id") Integer id) {
+        Integer sessionUserId = 1;
+        BoardResponse.DetailDTO detailDTO = boardService.글상세보기(id, sessionUserId);
+
+        return detailDTO;
     }
 
     @GetMapping("/board/{id}")
