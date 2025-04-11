@@ -55,10 +55,8 @@ public class BoardService {
         return boardPS;
     }
 
-
-    //todo
     @Transactional
-    public void 글수정하기(BoardRequest.UpdateDTO reqDTO, Integer boardId, Integer sessionUserId) {
+    public void 글수정(BoardRequest.UpdateDTO reqDTO, Integer boardId, Integer sessionUserId) {
         Board boardPS = boardRepository.findById(boardId);
 
         if (boardPS == null) throw new Exception404("자원을 찾을 수 없습니다");

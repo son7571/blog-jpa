@@ -71,7 +71,7 @@ public class BoardController {
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable("id") Integer id, BoardRequest.UpdateDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        boardService.글수정하기(reqDTO, id, sessionUser.getId());
+        boardService.글수정(reqDTO, id, sessionUser.getId());
         return "redirect:/board/" + id;
     }
 
