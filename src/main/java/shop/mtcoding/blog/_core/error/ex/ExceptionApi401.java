@@ -1,7 +1,7 @@
 package shop.mtcoding.blog._core.error.ex;
 
-public class Exception401 extends RuntimeException {
-    public Exception401(String msg) {
-        super(msg);
+public class ExceptionApi401 extends RuntimeException {
+    public ExceptionApi401(String message) {
+        super(message);
     }
 }
