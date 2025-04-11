@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
-    @GetMapping("/check-username-available/{username}")
+    @GetMapping("/api/check-username-available/{username}")
     public @ResponseBody Resp<?> checkUsernameAvailable(@PathVariable("username") String username) {
         Map<String, Object> dto = userService.유저네임중복체크(username);
         return Resp.ok(dto);
@@ -69,9 +69,6 @@ public class UserController {
 
     @GetMapping("/user/update-form")
     public String updateForm() {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
-
         // viewResolver -> prefix = /teplates/ -> suffix = .mustache
         return "user/update-form";
     }
@@ -79,11 +76,8 @@ public class UserController {
     @PostMapping("/user/update")
     public String update(UserRequest.UpdateDTO updateDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
-
         // update user_tb set password = ?, email = ? ,where id =?
         User user = userService.회원정보수정(updateDTO, sessionUser.getId());
-
         //세션 동기화
         session.setAttribute("sessionUser", user);
 
