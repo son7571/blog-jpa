@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-public class GlobalValidationHandler {
+public class GlobalValidationHandler { //관점
 
-    @Before("@annotation(shop.mtcoding.blog._core.error.anno.MyBefore)")
-    public void beforeAdvice(JoinPoint jp) {
+    @Before("@annotation(shop.mtcoding.blog._core.error.anno.MyBefore)") //포인트컷
+    public void beforeAdvice(JoinPoint jp) { //어드바이스
         String name = jp.getSignature().getName();
         System.out.println("Before Advice : " + name);
     }
