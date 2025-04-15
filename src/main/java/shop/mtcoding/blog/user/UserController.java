@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shop.mtcoding.blog._core.error.anno.MyAfter;
+import shop.mtcoding.blog._core.error.anno.MyAround;
+import shop.mtcoding.blog._core.error.anno.MyBefore;
 import shop.mtcoding.blog._core.error.ex.Exception400;
 import shop.mtcoding.blog._core.util.Resp;
 
@@ -25,19 +28,30 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
+    @MyAround
+    @GetMapping("/v2/around")
+    public @ResponseBody String around() {
+        return "good";
+    }
+
     @GetMapping("/api/check-username-available/{username}")
     public @ResponseBody Resp<?> checkUsernameAvailable(@PathVariable("username") String username) {
         Map<String, Object> dto = userService.유저네임중복체크(username);
         return Resp.ok(dto);
     }
 
+    @MyBefore
     @GetMapping("/join-form")
     public String joinForm() {
+        System.out.println("joinForm 호출됨");
         return "user/join-form";
     }
 
+    @MyAfter
     @PostMapping("/join")
     public String join(@Valid UserRequest.JoinDTO joinDTO, Errors errors) { //@Valid 안에있는 매개변수에 담긴거 분석
+        System.out.println("join 호출됨");
+
         if (errors.hasErrors()) {
             List<FieldError> fErrors = errors.getFieldErrors();
 
