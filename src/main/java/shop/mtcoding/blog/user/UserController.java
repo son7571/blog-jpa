@@ -38,14 +38,6 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(@Valid UserRequest.JoinDTO joinDTO, Errors errors) { //@Valid 안에있는 매개변수에 담긴거 분석
-        if (errors.hasErrors()) {
-            List<FieldError> fErrors = errors.getFieldErrors();
-
-            for (FieldError fieldError : fErrors) {
-                throw new Exception400(fieldError.getField() + ":" + fieldError.getDefaultMessage());
-            }
-        }
-
 
         // 유효성 검사
 //        boolean r1 = Pattern.matches("^[a-zA-Z0-9]{2,20}$", joinDTO.getUsername());
@@ -67,14 +59,6 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@Valid UserRequest.LoginDTO loginDTO, Errors errors, HttpServletResponse response) {
-
-        if (errors.hasErrors()) {
-            List<FieldError> fErrors = errors.getFieldErrors();
-
-            for (FieldError fieldError : fErrors) {
-                throw new Exception400(fieldError.getField() + ":" + fieldError.getDefaultMessage());
-            }
-        }
 
 
         //System.out.println(loginDTO);
@@ -108,7 +92,7 @@ public class UserController {
     }
 
     @PostMapping("/user/update")
-    public String update(UserRequest.UpdateDTO updateDTO) {
+    public String update(@Valid UserRequest.UpdateDTO updateDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         // update user_tb set password = ?, email = ? ,where id =?
         User user = userService.회원정보수정(updateDTO, sessionUser.getId());

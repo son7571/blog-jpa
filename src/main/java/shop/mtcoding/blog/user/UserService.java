@@ -51,6 +51,7 @@ public class UserService {
         return dto;
     }
 
+    
     @Transactional
     public User 회원정보수정(UserRequest.UpdateDTO updateDTO, Integer userId) {
         User user = userRepository.findById(userId);
