@@ -1,6 +1,5 @@
 package shop.mtcoding.blog.board;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import shop.mtcoding.blog.reply.Reply;
 
@@ -10,7 +9,21 @@ import java.util.List;
 
 public class BoardResponse {
 
-    @AllArgsConstructor
+    @Data
+    public static class MainDTO {
+        private List<Board> boards;
+        private Integer prev;
+        private Integer next;
+        private Boolean isFirst;
+        private Boolean isLast;
+
+        public MainDTO(List<Board> boards, Integer prev, Integer next) {
+            this.boards = boards;
+            this.prev = prev;
+            this.next = next;
+        }
+    }
+
     @Data
     public static class DetailDTO {
         private Integer id;
@@ -40,6 +53,8 @@ public class BoardResponse {
                 this.username = reply.getUser().getUsername();
                 this.isOwner = reply.getUser().getId().equals(sessionUserId);
             }
+
+
         }
 
 
@@ -67,4 +82,6 @@ public class BoardResponse {
 
 
     }
+
+
 }
