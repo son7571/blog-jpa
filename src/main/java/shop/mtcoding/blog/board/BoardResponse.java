@@ -14,13 +14,28 @@ public class BoardResponse {
         private List<Board> boards;
         private Integer prev;
         private Integer next;
-        private Boolean isFirst;
-        private Boolean isLast;
+        private Integer current; //current 현재페이지
+        private Integer size;
+        private Integer totalCount;
+        private Integer totalPages;
+        private Boolean isFirst; //current == 0
+        private Boolean isLast; // totalCount, size = 3 totalPage = current
+        private List<Integer> numbers; //20개 [1,2,3,4,5,6,7] -> model.numbers -> {{.}}
 
-        public MainDTO(List<Board> boards, Integer prev, Integer next) {
+        public MainDTO(List<Board> boards, Integer current, Integer totalCount) {
             this.boards = boards;
-            this.prev = prev;
-            this.next = next;
+            this.prev = current - 1;
+            this.next = current + 1;
+            this.size = 3;
+            this.totalCount = totalCount; // given
+            this.totalPages = makeTotalPages(totalCount, size);
+            this.isFirst = current == 0;
+            this.isLast = (totalPages - 1) == current;
+        }
+
+        private Integer makeTotalPages(int totalCount, int size) {
+            int rest = totalCount % size > 0 ? 1 : 0; // 6->0, 7->1, 8->2, 9->0
+            return totalCount / size + rest;
         }
     }
 
