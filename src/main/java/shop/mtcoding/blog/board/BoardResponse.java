@@ -21,6 +21,9 @@ public class BoardResponse {
         private Boolean isFirst; //current == 0
         private Boolean isLast; // totalCount, size = 3 totalPage = current
         private List<Integer> numbers; //20개 [1,2,3,4,5,6,7] -> model.numbers -> {{.}}
+        private Integer pageSize;
+        private Integer pageIndex;
+
 
         public MainDTO(List<Board> boards, Integer current, Integer totalCount) {
             this.boards = boards;
@@ -31,13 +34,30 @@ public class BoardResponse {
             this.totalPages = makeTotalPages(totalCount, size);
             this.isFirst = current == 0;
             this.isLast = (totalPages - 1) == current;
+            this.numbers = makeNumbers(current, totalPages);
         }
+
 
         private Integer makeTotalPages(int totalCount, int size) {
             int rest = totalCount % size > 0 ? 1 : 0; // 6->0, 7->1, 8->2, 9->0
             return totalCount / size + rest;
         }
+
+        public List<Integer> makeNumbers(int current, int totalPage) {
+            List<Integer> numbers = new ArrayList<>();
+
+            int start = (current / 5) * 5;
+            int end = Math.min(start + 5, totalPage);
+
+            for (int i = start; i < end; i++) {
+                numbers.add(i);
+            }
+
+            return numbers;
+        }
+
     }
+
 
     @Data
     public static class DetailDTO {
