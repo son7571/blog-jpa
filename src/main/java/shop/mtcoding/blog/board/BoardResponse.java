@@ -23,9 +23,10 @@ public class BoardResponse {
         private List<Integer> numbers; //20개 [1,2,3,4,5,6,7] -> model.numbers -> {{.}}
         private Integer pageSize;
         private Integer pageIndex;
+        private String keyword;
 
 
-        public MainDTO(List<Board> boards, Integer current, Integer totalCount) {
+        public MainDTO(List<Board> boards, Integer current, Integer totalCount, String keyword) {
             this.boards = boards;
             this.prev = current - 1;
             this.next = current + 1;
@@ -35,6 +36,7 @@ public class BoardResponse {
             this.isFirst = current == 0;
             this.isLast = (totalPages - 1) == current;
             this.numbers = makeNumbers(current, totalPages);
+            this.keyword = keyword;// 경우의수 : keyword 값이 있거나, keyword null이거나
         }
 
 

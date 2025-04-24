@@ -26,15 +26,15 @@ public class BoardService {
 
     }
 
-    public BoardResponse.MainDTO 글목록보기(Integer userId, Integer page) {
+    public BoardResponse.MainDTO 글목록보기(Integer userId, Integer page, String keyword) {
         if (userId == null) {
             Long totalCount = boardRepository.totalCount();
-            List<Board> boards = boardRepository.findAll(page);
-            return new BoardResponse.MainDTO(boards, page, totalCount.intValue());
+            List<Board> boards = boardRepository.findAll(page, keyword);
+            return new BoardResponse.MainDTO(boards, page, totalCount.intValue(), keyword);
         } else {
             Long totalCount = boardRepository.totalCount(userId);
-            List<Board> boards = boardRepository.findAll(userId, page);
-            return new BoardResponse.MainDTO(boards, page, totalCount.intValue());
+            List<Board> boards = boardRepository.findAll(userId, page, keyword);
+            return new BoardResponse.MainDTO(boards, page, totalCount.intValue(), keyword);
         }
     }
 

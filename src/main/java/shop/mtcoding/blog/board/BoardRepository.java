@@ -45,18 +45,35 @@ public class BoardRepository {
 
 
     // locahost:8080?page=0
-    public List<Board> findAll(int page) {
-        String sql = "select b from Board b where b.isPublic = true order by b.id desc";
+    public List<Board> findAll(int page, String keyword) {
+        String sql;
+        if (keyword.isBlank()) {
+            sql = "select b from Board b where b.isPublic = true order by b.id desc";
+        } else {
+            sql = "select b from Board b where b.isPublic = true and b.title like :keyword order by b.id desc";
+        }
         Query query = em.createQuery(sql, Board.class);
+        if (!keyword.isBlank()) {
+            query.setParameter("keyword", "%" + keyword + "%");
+        }
         query.setFirstResult(page * 3);
         query.setMaxResults(3);
 
         return query.getResultList();
     }
 
-    public List<Board> findAll(Integer userId, int page) {
-        String sql = "select b from Board b where b.isPublic = true or b.user.id = :userId order by b.id desc";
+    public List<Board> findAll(Integer userId, int page, String keyword) {
+        String sql;
+        if (keyword.isBlank()) {
+            sql = "select b from Board b where b.isPublic = true or b.user.id = :userId order by b.id desc";
+        } else {
+            sql = "select b from Board b where b.isPublic = true or b.user.id = :userId and b.title like :keyword order by b.id desc";
+        }
         Query query = em.createQuery(sql, Board.class);
+        if (!keyword.isBlank()) {
+            query.setParameter("keyword", "%" + keyword + "%");
+        }
+
         query.setParameter("userId", userId);
         query.setFirstResult(page * 3);
         query.setMaxResults(3);

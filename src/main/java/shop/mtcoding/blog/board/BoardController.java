@@ -16,13 +16,16 @@ public class BoardController {
     private final HttpSession session;
 
     @GetMapping("/")
-    public String list(HttpServletRequest request, @RequestParam(required = false, value = "page", defaultValue = "0") Integer page) {
+    public String list(HttpServletRequest request, @RequestParam(required = false, value = "page", defaultValue = "0") Integer page,
+                       @RequestParam(required = false, value = "keyword", defaultValue = "") String keyword) {
+        System.out.println("keyword: " + keyword);
         User sessionUser = (User) session.getAttribute("sessionUser");
 
+
         if (sessionUser == null) {
-            request.setAttribute("model", boardService.글목록보기(null, page));
+            request.setAttribute("model", boardService.글목록보기(null, page, keyword));
         } else {
-            request.setAttribute("model", boardService.글목록보기(sessionUser.getId(), page));
+            request.setAttribute("model", boardService.글목록보기(sessionUser.getId(), page, keyword));
         }
 
         return "board/list";
